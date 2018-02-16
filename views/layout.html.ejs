@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple APM</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/layout.css">
+</head>
+<body>
+	<%-body%>
+</body>
+</html>
+<script type="text/javascript" src="/assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/Chart.bundle.min.js"></script>
+<% if(self.jsFiles) { %>
+	<% for (var i = 0; i < self.jsFiles.length; i++) { %>
+		<% if(self.jsFiles[i].indexOf('script') !== -1) { %>
+			<%- self.jsFiles[i] %>
+		<% } else { %>
+			<script type="text/javascript" src="<%-self.jsFiles[i]%>"></script>	
+		<% } // end if %>
+	<% } // end for%>
+<% } // end if%>

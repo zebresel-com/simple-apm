@@ -1,0 +1,25 @@
+{
+  "name": "simple-apm",
+  "version": "0.0.1",
+  "description": "This is a simple APM Dashboard with API for incoming Data",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-less": "^0.1.0",
+    "fs": "0.0.1-security",
+    "i18n": "^0.8.3",
+    "mysql2": "^1.5.2",
+    "node-env-file": "^0.1.8",
+    "sequelize": "^4.33.3"
+  },
+  "keywords": [
+    "apm",
+    "monitoring",
+    "perfomance",
+    "cpu",
+    "memory"
+  ],
+  "author": "Kristof Friess (k.friess@zebresel.com - Zebresel; http://www.zebresel.com)",
+  "license": "MIT"
+}
