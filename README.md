@@ -1,11 +1,17 @@
 
-#Getting Started
+# Getting Started
+
 Cooing Soon
 
-#Examples
+# Examples
+
 Cooing Soon
 
-#Database USE
+
+# Database USE
+
+You can choose by yourself, which database you like. We use MySQL/MariaDB for your Dashboard. So we designed the database and also the dump for this.
+
 
 Choose you database and install the correct package, if you use a sqlite, you should change the settings in the `index.js`
 
@@ -17,10 +23,7 @@ $ npm install --save sqlite3
 $ npm install --save tedious // MSSQL
 ```
 
-
-#PCAP Parser
-
-#License
+# License
 (The MIT License)
 
 Copyright (c) since 2016 Kristof Friess (Zebresel)
