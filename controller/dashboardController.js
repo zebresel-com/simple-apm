@@ -63,7 +63,7 @@ class DashboardController extends ViewController
 						[Op.gte] : Date.now() - (postTime * 1000)
 					},
 					type: {
-						[Op.or] : ['memory', 'cpu']
+						[Op.or] : ['memory', 'cpu', 'disk']
 					},
 					application: application.id
 				};
@@ -137,6 +137,13 @@ class DashboardController extends ViewController
 							chart[type].appValues.push(post.data.app / 1024 / 1024);
 							chart[type].values.push((post.data.total - post.data.free) / 1024 / 1024);
 						}
+						else if(type === 'disk')
+						{
+							result[type].push({
+								used: (post.data.total - post.data.free) / 1000 / 1000, // converted to MB
+								free: post.data.free / 1000 / 1000, // converted to MB
+							});
+						}
 						else if(type === 'http')
 						{
 							result[type].push(post);
@@ -169,6 +176,19 @@ class DashboardController extends ViewController
 						result.memoryApp = -1.0;
 						result.memoryOther = -1.0;
 					}
+
+					if(result.disk && result.disk.length > 0)
+					{
+						result.diskFree = result.disk[result.disk.length - 1].free;
+						result.diskUsed = result.disk[result.disk.length - 1].used;
+					}
+					else
+					{
+						result.diskFree = -1.0;
+						result.diskUsed = -1.0;
+					}
+
+
 					result.chart = chart;
 
 					self.render({

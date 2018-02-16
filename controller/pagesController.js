@@ -59,10 +59,21 @@ class PagesController extends ViewController
 			}
 		}).then(function(application){
 
-			self.render({
-				application: application
-			});
-		});
+			if(!application)
+			{
+				self.redirect('/errors/404');	
+			}
+			else
+			{
+				self.render({
+					application: application
+				});
+			}
+			
+		}).catch(function (err) {
+  			self.redirect('/errors/500');
+  			console.error('Tryed to retrive an application, but failed', err);
+		});;
 	}
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "simple-apm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This is a simple APM Dashboard with API for incoming Data",
   "dependencies": {
     "body-parser": "^1.18.2",

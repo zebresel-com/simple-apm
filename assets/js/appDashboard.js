@@ -2,6 +2,8 @@
 
     var cpuChart = null;
     var memoryChart = null;
+    var diskChart = null;
+
     var cpuLineChart = null;
     var memoryLineChart = null;
 
@@ -112,6 +114,56 @@
                     Math.round(data.dashboard.memoryFree * 100)/100
                 ];
                 memoryChart.update();
+            }
+
+
+            // And for a doughnut chart
+            if(diskChart === null)
+            {
+                var ctx = document.getElementById("metric-disk");
+
+                diskChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            'Used',
+                            'Free'
+                        ],
+                        datasets: [
+                            {
+                                data: [
+                                    data.dashboard.diskUsed,
+                                    data.dashboard.diskFree
+                                ],
+                                backgroundColor: [
+                                    '#fed330',
+                                    '#d1d8e0'
+                                ]
+                            }
+                        ]
+                    },
+                    options: {
+                        rotation: 1 * Math.PI,
+                        circumference: 1 * Math.PI,
+                        animation: false,
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Disk Usage'
+                        }
+                    }
+                });
+            }
+            else
+            {
+                diskChart.data.datasets[0].data = [
+                    data.dashboard.diskUsed,
+                    data.dashboard.diskFree
+                ];
+                diskChart.update();
             }
 
 
