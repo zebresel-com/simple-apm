@@ -308,6 +308,19 @@
                 memoryLineChart.update();
             }
 
+            // render requests
+            var httpList = document.getElementById('http-requests-body');
+
+            // reset content
+            httpList.innerHTML = '';
+
+            var httpDom = null;
+            for (var i = 0; i < data.dashboard.https.length; i++)
+            {
+                httpDom = tpl.render('tpl-http-requests-row', data.dashboard.https[i]);
+                httpList.appendChild(httpDom);
+            }
+
             setTimeout(refresh, 10000); // every 10 seconds
 
         }, 'json');

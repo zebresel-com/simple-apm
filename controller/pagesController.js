@@ -60,7 +60,8 @@ class PagesController extends MainController
 		const self = this;
 
 		self.jsFiles = [
-			'/assets/js/appDashboard.js'
+			'/assets/js/appDashboard.js',
+			'/assets/js/template-renderer.js'
 		];
 
 		// const variables for models

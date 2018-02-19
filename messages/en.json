@@ -2,5 +2,10 @@
 	"Could not found '%s'": "Could not found '%s'",
 	"test": "test",
 	"email": "email",
-	"password": "password"
+	"password": "password",
+	"url-path": "url-path",
+	"duration-min": "duration-min",
+	"duration-max": "duration-max",
+	"duration-avg": "duration-avg",
+	"request-count": "request-count"
 }

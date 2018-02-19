@@ -36,6 +36,7 @@ class DashboardController extends MainController
 		// const variables for models
 		const Post 			= self._app.models.Post;
 		const Application 	= self._app.models.Application;
+		const Http 			= self._app.models.Http;
 
 		// filtered  by app?
 		const appId = self.param('appId');
@@ -193,8 +194,23 @@ class DashboardController extends MainController
 
 					result.chart = chart;
 
-					self.render({
-						dashboard: result
+					// retrieve http requests
+					Http.findAll({
+						where: {
+							deleted: false
+						},
+						order: [['max', 'DESC']],
+					}).then(function(https){
+
+						result.https = https;
+
+						self.render({
+							dashboard: result
+						});
+
+					}).catch(function (err) {
+			  			self.redirect('/errors/500');
+			  			console.error('Tryed to retrive an application, but failed', err);
 					});
 				});
 			}

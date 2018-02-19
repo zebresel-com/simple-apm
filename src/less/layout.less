@@ -3,3 +3,50 @@
 body {
 	background: #F0F0F0;
 }
+
+
+.dashboard {
+
+	.metric-head {
+		font-weight: bold;
+	}
+
+	.metric-row {
+		&:after {
+			content:" ";
+			visibility: hidden;
+			clear: both;
+			height: 0;
+			width: 0;
+			display: block;
+		}
+
+		&.hover:hover {
+			background: #F8F8F8;
+		}
+
+		&.inset {
+			padding:6px 12px;
+		}
+	}
+
+	.metric-2 {
+		float: left;
+		width: 100%/12 * 2;
+	}
+
+	.metric-4 {
+		float: left;
+		width: 100%/12 * 4;
+	}
+
+	.metric-6 {
+		float: left;
+		width: 100%/12 * 6;
+	}
+
+	.metric-12 {
+		float: left;
+		width: 100%;
+	}
+}
