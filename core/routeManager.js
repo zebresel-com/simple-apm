@@ -32,10 +32,9 @@ class RouteManager
 	init()
 	{
 		const self = this;
-
 		// configuring express to use body-parser
-		self._app.use(bodyParser.urlencoded({ extended: true }));
-		self._app.use(bodyParser.json());
+		self._app.use(bodyParser.urlencoded({limit: '512mb', extended: true }));
+		self._app.use(bodyParser.json({limit: '512mb'}}));
 
 		for (let path in self._routes)
 		{
