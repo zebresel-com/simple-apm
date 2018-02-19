@@ -27,7 +27,7 @@ class ErrorsController extends MainController
 		
 		if(self._req.headers['accept'].indexOf('application/json') !== -1)
 		{
-			self.format = ViewController.FORMATS.JSON;
+			self.format = MainController.FORMATS.JSON;
 		}
 
 		next();
