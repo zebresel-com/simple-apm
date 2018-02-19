@@ -89,6 +89,12 @@ class PostsController extends MainController
 			// create new post with params
 			Post.create(remotePost).then(function(post){
 
+				// check dispatch is needed?
+				if(remotePost.type === 'http')
+				{
+					self.dispatchTypeHttp(remotePost);
+				}
+
 			});
 		}
 		// multiupdate
@@ -100,6 +106,11 @@ class PostsController extends MainController
 
 				// create new post with params
 				Post.create(remotePosts[i]).then(function(post){
+					// check dispatch is needed?
+					if(remotePosts[i].type === 'http')
+					{
+						self.dispatchTypeHttp(remotePosts[i]);
+					}
 				});
 			}
 		}
@@ -205,6 +216,48 @@ class PostsController extends MainController
 				dashboard: result
 			});
 		});
+	}
+
+
+	dispatchTypeHttp(remotePost)
+	{
+		const self = this;
+		const Http = self._app.models.Http;
+		const path = remotePost.data.path;
+
+		// check path is available
+		if(path)
+		{
+			// check there is already an entry?
+			Http.findOne({
+				where: {
+					deleted: false,
+					path: path
+				}
+			}).then(function(http){
+
+				if(!http)
+				{
+					http = Http.build();
+				}
+
+				http.path = path;
+				http.count += 1;
+
+				http.max = http.max > remotePost.data.duration ? http.max : remotePost.data.duration;
+				// FIXME: Min === 0 is not the best start value
+				http.min = (http.min !== 0 && http.min < remotePost.data.duration) ? http.min : remotePost.data.duration;
+				http.avg = ((http.avg * (http.count-1))  + remotePost.data.duration) / http.count;
+
+				http.save().then(function() {
+
+		            // Save done
+
+		        }).catch(function (err) {
+		            console.error('Save of http failed', err);
+		        });
+			});
+		}
 	}
 }
 
