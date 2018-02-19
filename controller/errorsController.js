@@ -8,11 +8,31 @@
 /*jshint esversion: 6 */
 /*jshint node: true*/
 
-const ViewController = require('./../core/viewController.js');
-const errorMessages = require('./../core/helper/errors.js');
+const MainController = require('./mainController.js');
+const errorMessages = require('./../core/helper/httpErrors.js');
 
-class PagesController extends ViewController
+class ErrorsController extends MainController
 {
+	constructor(app, req, res, controller, action, method)
+	{
+		super(app, req, res, controller, action, method);
+
+		this.loginNeeded = false;
+	}
+
+	init(next)
+	{
+		// default self wrap
+		const self = this;
+		
+		if(self._req.headers['accept'].indexOf('application/json') !== -1)
+		{
+			self.format = ViewController.FORMATS.JSON;
+		}
+
+		next();
+	}
+
 	actionIndex()
 	{
 		// default self wrap
@@ -25,7 +45,7 @@ class PagesController extends ViewController
 		message.code = errorCode;
 		self.render({
 			error: message
-		}, errorCode);
+		}, { status: errorCode});
 	}
 
 	codeMessage(code)
@@ -40,4 +60,4 @@ class PagesController extends ViewController
 	}
 }
 
-module.exports = PagesController;
+module.exports = ErrorsController;

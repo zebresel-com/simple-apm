@@ -8,15 +8,20 @@
 /*jshint esversion: 6 */
 /*jshint node: true*/
 
-const ViewController = require('./../core/viewController.js');
+const MainController = require('./mainController.js');
 
-class PagesController extends ViewController
+class PagesController extends MainController
 {
-	// init(next)
-	// {
-	// 	console.log('before other actions');
-	// 	next();
-	// }
+	constructor(app, req, res, controller, action, method)
+	{
+		super(app, req, res, controller, action, method);
+
+		if(action === 'login')
+		{
+			this.userNeeded = false;
+			this.loginNeeded = false;
+		}
+	}
 
 	actionIndex()
 	{
@@ -25,6 +30,8 @@ class PagesController extends ViewController
 
 		// const variables for models
 		const Application = self._app.models.Application;
+
+		const currUser = self._req.currUser;
 
 		// retreive all applications for a list display
 		Application.findAll({
@@ -37,6 +44,14 @@ class PagesController extends ViewController
 				applications: applications
 			});
 		});
+	}
+
+	actionLogin()
+	{
+		// default self wrap
+		const self = this;
+
+		self.render({});
 	}
 
 	actionApplicationDashboard()

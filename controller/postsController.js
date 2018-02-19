@@ -7,20 +7,32 @@
 /*jshint esversion: 6 */
 /*jshint node: true*/
 
-const ViewController = require('./../core/viewController.js');
+const MainController = require('./mainController.js');
 
 const Sequelize = require('sequelize');
 const Op 		= Sequelize.Op
 
-class PostsController extends ViewController
+class PostsController extends MainController
 {
+
+	constructor(app, req, res, controller, action, method)
+	{
+		super(app, req, res, controller, action, method);
+
+		if(action === 'create')
+		{
+			this.userNeeded = false;
+			this.loginNeeded = false;
+		}
+	}
+
 	init(next)
 	{
 		// default self wrap
 		const self = this;
 
 		// default format is JSON
-		self.format = ViewController.FORMATS.JSON;
+		self.format = MainController.FORMATS.JSON;
 
 		// app only actions
 		const onlyApp = ['create'];

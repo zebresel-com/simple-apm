@@ -7,13 +7,13 @@
 /*jshint esversion: 6 */
 /*jshint node: true*/
 
-const ViewController = require('./../core/viewController.js');
+const MainController = require('./mainController.js');
 
-class ApplicationsController extends ViewController
+class ApplicationsController extends MainController
 {
 	init(next)
 	{
-		self.format = ViewController.FORMATS.JSON;
+		self.format = MainController.FORMATS.JSON;
 		next();
 	}
 

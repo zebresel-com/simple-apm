@@ -7,12 +7,12 @@
 /*jshint esversion: 6 */
 /*jshint node: true*/
 
-const ViewController = require('./../core/viewController.js');
+const MainController = require('./mainController.js');
 
 const Sequelize = require('sequelize');
 const Op 		= Sequelize.Op
 
-class DashboardController extends ViewController
+class DashboardController extends MainController
 {
 	init(next)
 	{
@@ -20,7 +20,7 @@ class DashboardController extends ViewController
 		const self = this;
 
 		// default format is JSON
-		self.format = ViewController.FORMATS.JSON;
+		self.format = MainController.FORMATS.JSON;
 
 		next();
 	}

@@ -1,0 +1,44 @@
+<div class="login-wrap">
+	<form method="post">
+		<div>
+			<label for="login-email"><%=l('email')%></label>
+			<input placeholder="admin@zebresel.com" name="email" id="login-email" type="email"/>
+		</div>
+		<div>
+			<label for="login-password"><%=l('password')%></label>
+			<input placeholder="********" name="password" id="login-password" type="password"/>
+		</div>
+		<div>
+			<input type="submit" name="submit" id="login-submit" value="login" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function(){
+
+		var submitButton = document.getElementById('login-submit');
+		
+		submitButton.addEventListener('click', function(event){
+			event.stopPropagation();
+			event.preventDefault();
+
+			var password 	 = document.getElementById('login-password');
+			var email 		 = document.getElementById('login-email');
+
+			$.post( '/sign-in', {
+				password: password.value,
+				email: email.value
+			}, function( data ) {
+
+				// redirect to root page
+				window.location = '/';
+
+	        }, 'json').fail(function() {
+
+	    		alert( "login failed" );
+	  		});
+
+	  		return false;
+		});
+	});
+</script>

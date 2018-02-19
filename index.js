@@ -13,14 +13,17 @@ const RouteManager      = require('./core/routeManager.js');
 const Sequelize         = require('sequelize');
 
 // Variables
+const os                = require('os');
+const path              = require('path');
 const express           = require('express');
 const app               = express();
 const http              = require('http').Server(app);
-const router            = new RouteManager(app, require('./config/routes.js'))
 const expressLess       = require('express-less');
 const env               = require('node-env-file');
 const fs                = require('fs');
 const i18n              = require('i18n');
+const session           = require('express-session');
+const fileStore         = require('session-file-store')(session);
 
 // Load another ENV file - and overwrite any defined ENV variables.
 if(fs.existsSync(__dirname + '/.env'))
@@ -33,13 +36,24 @@ i18n.configure({
     locales:['en'],
     directory: __dirname + '/messages',
     api: {
-      '__': 't',  //now req.__ becomes req.t 
-      '__n': 'tn' //and req.__n can be called as req.tn 
+      '__': 'l',  //now req.__ becomes req.t 
+      '__n': 'ln' //and req.__n can be called as req.tn 
     }
 });
 
 // Config should be load after env, because of overwrites
 app.config = require('./config/config.js');
+
+// remove express powered by header
+app.disable('x-powered-by');
+
+// add session handling
+app.use(session({
+    store: new fileStore({
+        path: path.join(os.tmpdir(), 'simple-apm', 'sessions')
+    }),
+    secret: app.config.sessionSecret
+}));
 
 // static routes
 app.use('/assets', express.static('assets'));
@@ -76,6 +90,9 @@ for (let i = modelFiles.length - 1; i >= 0; i--)
     let className = modelFiles[i].charAt(0).toUpperCase() + modelFiles[i].substr(1, modelFiles[i].length - 4);
     app.models[className] = require(modelDir + '/' + modelFiles[i])(app.sequelize);
 }
+
+// init route manager
+const router = new RouteManager(app, require('./config/routes.js'))
 
 // start simple server to read
 http.listen(app.config.port, function() {

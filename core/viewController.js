@@ -70,11 +70,16 @@ class ViewController
             let layout = opt.layout || path.resolve(self.viewPath() + '/layout.html.ejs');
             params.self = self;
 
+            // extend params with i18n
+            params.l = self._req.l
+            params.ln = self._req.ln
+
             ejs.renderFile(path.resolve(self.viewPath() + '/' + self._controller + '/'+self._action+'.html.ejs'), params, opt, function(err, str) {
 
                 // if there is any error, render the error out
                 if(err)
                 {
+                    console.log(err)
                     self._res.send(err);
                 }
                 else

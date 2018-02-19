@@ -1,3 +1,6 @@
 {
-	"Could not found '%s'" : "Could not found '%s'"
+	"Could not found '%s'": "Could not found '%s'",
+	"test": "test",
+	"email": "email",
+	"password": "password"
 }

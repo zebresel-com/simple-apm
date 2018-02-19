@@ -2,7 +2,7 @@ const Sequelize         = require('sequelize');
 
 module.exports = function(sequelize)
 {
-    let Post = sequelize.define('Post', {
+    let Model = sequelize.define('Post', {
         type: {
             type: Sequelize.STRING,
             allowNull: false
@@ -26,5 +26,5 @@ module.exports = function(sequelize)
       freezeTableName: true // Model tableName will be the same as the model name
     });
 
-    return Post;
+    return Model;
 }
