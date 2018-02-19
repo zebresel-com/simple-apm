@@ -1,11 +1,11 @@
 {
 	"Could not found '%s'": "Could not found '%s'",
 	"test": "test",
-	"email": "email",
-	"password": "password",
-	"url-path": "url-path",
-	"duration-min": "duration-min",
-	"duration-max": "duration-max",
-	"duration-avg": "duration-avg",
-	"request-count": "request-count"
+	"email": "E-Mail",
+	"password": "Password",
+	"url-path": "Request Path",
+	"duration-min": "Execution Min",
+	"duration-max": "Execution Max",
+	"duration-avg": "Execution Avg",
+	"request-count": "Number of Requests"
 }
