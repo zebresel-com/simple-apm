@@ -42,8 +42,10 @@ class DashboardController extends MainController
 
 		// is there an app id? should be so check the app is real
 		Application.findOne({
-			deleted: false,
-			id: Number(appId)
+			where: {
+				deleted: false,
+				id: Number(appId)
+			}
 		}).then(function(application){
 			
 			// no application found?

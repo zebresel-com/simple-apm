@@ -39,8 +39,10 @@ class MainController extends ViewController
 
             // retreive all users
             User.findOne({
-                deleted: false,
-                id: self._req.session.userId
+                where: {
+                    deleted: false,
+                    id: self._req.session.userId
+                }
             }).then(function(user) {
 
                 if(!user && self.loginNeeded)

@@ -62,8 +62,10 @@ class UsersController extends MainController
 
         // retreive all users
         User.findOne({
-            deleted: false,
-            id: userId || self.param('id')
+            where : {
+                deleted: false,
+                id: userId || self.param('id')
+            }
         }).then(function(user) {
 
             if(!user)
@@ -134,8 +136,10 @@ class UsersController extends MainController
 
         // retreive all users
         User.findOne({
-            deleted: false,
-            id: self.param('id')
+            where: {
+                deleted: false,
+                id: self.param('id')
+            }
         }).then(function(user) {
 
             if(!user)
@@ -183,8 +187,10 @@ class UsersController extends MainController
 
         // retreive all users
         User.findOne({
-            deleted: false,
-            id: self.param('id')
+            where: {
+                deleted: false,
+                id: self.param('id')
+            }
         }).then(function(user) {
 
             if(!user)
@@ -224,8 +230,10 @@ class UsersController extends MainController
 
         // retrieve user with mail
         User.findOne({
-            deleted: false,
-            email: email
+            where : {
+                deleted: false,
+                email: email
+            }
         }).then(function(user) {
 
             // if no use can be found or the password of the user wrong send an error
