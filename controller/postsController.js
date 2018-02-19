@@ -24,6 +24,11 @@ class PostsController extends MainController
 			this.userNeeded = false;
 			this.loginNeeded = false;
 		}
+
+
+		// variables used for the http dispatcher
+		this.dispatchHttpExec = false;
+		this.dispatchHttpStack = [];
 	}
 
 	init(next)
@@ -228,36 +233,65 @@ class PostsController extends MainController
 		// check path is available
 		if(path)
 		{
-			// check there is already an entry?
-			Http.findOne({
-				where: {
-					deleted: false,
-					path: path
-				}
-			}).then(function(http){
+			// check dispatcher is work?
+			if(self.dispatchHttpExec === true)
+			{
+				self.dispatchHttpStack.push(remotePost);
+			}
+			else
+			{
+				self.dispatchHttpExec = true;
 
-				if(!http)
-				{
-					http = Http.build();
-				}
+				// check there is already an entry?
+				Http.findOne({
+					where: {
+						deleted: false,
+						path: path
+					}
+				}).then(function(http){
 
-				http.path = path;
-				http.count += 1;
+					if(!http)
+					{
+						http = Http.build();
+					}
 
-				http.max = http.max > remotePost.data.duration ? http.max : remotePost.data.duration;
-				// FIXME: Min === 0 is not the best start value
-				http.min = (http.min !== 0 && http.min < remotePost.data.duration) ? http.min : remotePost.data.duration;
-				http.avg = ((http.avg * (http.count-1))  + remotePost.data.duration) / http.count;
+					http.path = path;
+					http.count += 1;
 
-				http.save().then(function() {
+					http.max = http.max > remotePost.data.duration ? http.max : remotePost.data.duration;
+					// FIXME: Min === 0 is not the best start value
+					http.min = (http.min !== 0 && http.min < remotePost.data.duration) ? http.min : remotePost.data.duration;
+					http.avg = ((http.avg * (http.count-1))  + remotePost.data.duration) / http.count;
 
-		            // Save done
+					http.save().then(function() {
 
-		        }).catch(function (err) {
-		            console.error('Save of http failed', err);
+			            // Save done
+			            self.dispatchTypeNextHttp()
+
+			        }).catch(function (err) {
+			        	self.dispatchTypeNextHttp()
+			            console.error('Save of http failed', err);
+			        });
+
+				}).catch(function (err) {
+					self.dispatchTypeNextHttp();
+		            console.error('Failed ot dispatch http requests', err);
 		        });
-			});
+			}
 		}
+	}
+
+	dispatchTypeNextHttp()
+	{
+		const self = this;
+		
+		self.dispatchHttpExec = false;
+
+		if(self.dispatchHttpStack.length > 0)
+        {
+        	let nextRemotePost = self.dispatchHttpStack.pop();
+        	self.dispatchTypeHttp(nextRemotePost);
+        }
 	}
 }
 
