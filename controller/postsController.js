@@ -242,6 +242,14 @@ class PostsController extends MainController
 			{
 				self.dispatchHttpExec = true;
 
+				// clean up path and remove queryparams
+				let indexOfQ = path.indexOf('?');
+
+				if(indexOfQ !== -1)
+				{
+					path = path.substr(0, indexOfQ);
+				}
+
 				// check there is already an entry?
 				Http.findOne({
 					where: {
@@ -284,7 +292,7 @@ class PostsController extends MainController
 	dispatchTypeNextHttp()
 	{
 		const self = this;
-		
+
 		self.dispatchHttpExec = false;
 
 		if(self.dispatchHttpStack.length > 0)
