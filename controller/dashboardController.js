@@ -197,7 +197,8 @@ class DashboardController extends MainController
 					// retrieve http requests
 					Http.findAll({
 						where: {
-							deleted: false
+							deleted: false,
+							application: application.id
 						},
 						order: [['max', 'DESC']],
 					}).then(function(https){
