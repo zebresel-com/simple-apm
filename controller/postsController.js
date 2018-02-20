@@ -228,7 +228,8 @@ class PostsController extends MainController
 	{
 		const self = this;
 		const Http = self._app.models.Http;
-		const path = remotePost.data.path;
+
+		let path = remotePost.data.path;
 
 		// check path is available
 		if(path)
@@ -254,7 +255,8 @@ class PostsController extends MainController
 				Http.findOne({
 					where: {
 						deleted: false,
-						path: path
+						path: path,
+						application: remotePost.application
 					}
 				}).then(function(http){
 
@@ -263,6 +265,7 @@ class PostsController extends MainController
 						http = Http.build();
 					}
 
+					http.application = remotePost.application;
 					http.path = path;
 					http.count += 1;
 

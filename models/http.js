@@ -26,6 +26,10 @@ module.exports = function(sequelize)
             type: Sequelize.INTEGER,
             allowNull: false,
             defaultValue: 0,
+        },
+        application: {
+            type: Sequelize.INTEGER,
+            allowNull: false
         }
     }, {
       freezeTableName: true // Model tableName will be the same as the model name
