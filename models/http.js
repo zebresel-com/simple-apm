@@ -7,6 +7,10 @@ module.exports = function(sequelize)
             type: Sequelize.STRING,
             allowNull: false
         },
+        method: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         min: {
         	type: Sequelize.INTEGER,
             allowNull: false,

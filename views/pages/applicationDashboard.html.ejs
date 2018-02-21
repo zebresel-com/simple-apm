@@ -24,11 +24,12 @@
 	<div class="http-requests">
 		<div class="metric-head">
 			<div class="metric-row inset">
+				<div class="metric-1"><%=l('http-method')%></div>
 				<div class="metric-4"><%=l('url-path')%></div>
 				<div class="metric-2"><%=l('duration-min')%></div>
 				<div class="metric-2"><%=l('duration-max')%></div>
 				<div class="metric-2"><%=l('duration-avg')%></div>
-				<div class="metric-2"><%=l('request-count')%></div>
+				<div class="metric-1"><%=l('request-count')%></div>
 			</div>
 		</div>
 		<div class="metric-body" id="http-requests-body">
@@ -38,11 +39,12 @@
 
 	<script type="text/template" id="tpl-http-requests-row">
 		<div class="metric-row inset hover">
+			<div class="metric-1">{{method}}&nbsp;</div>
 			<div class="metric-4">{{path}}</div>
-			<div class="metric-2">{{min}}</div>
-			<div class="metric-2">{{max}}</div>
-			<div class="metric-2">{{avg}}</div>
-			<div class="metric-2">{{count}}</div>
+			<div class="metric-2">{{min}}ms</div>
+			<div class="metric-2">{{max}}ms</div>
+			<div class="metric-2">{{avg}}ms</div>
+			<div class="metric-1">{{count}}</div>
 		</div>
 	</script>
 </div>

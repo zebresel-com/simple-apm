@@ -256,6 +256,7 @@ class PostsController extends MainController
 					where: {
 						deleted: false,
 						path: path,
+						method: remotePost.data.method,
 						application: remotePost.application
 					}
 				}).then(function(http){
@@ -263,11 +264,15 @@ class PostsController extends MainController
 					if(!http)
 					{
 						http = Http.build();
+
+						// set default values which will never change again
+						http.method = remotePost.data.method;
+						http.application = remotePost.application;
+						http.path = path;
 					}
 
-					http.application = remotePost.application;
-					http.path = path;
 					http.count += 1;
+
 
 					http.max = http.max > remotePost.data.duration ? http.max : remotePost.data.duration;
 					// FIXME: Min === 0 is not the best start value
