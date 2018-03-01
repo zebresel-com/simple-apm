@@ -50,9 +50,9 @@
                         datasets: [
                             {
                                 data: [
-                                    valueWithDefault(data, 'data.dashboard.cpuOther', 0),
-                                    valueWithDefault(data, 'data.dashboard.cpuApp', 0),
-                                    valueWithDefault(data, 'data.dashboard.cpuFree', 0)
+                                    valueWithDefault(data, 'dashboard.cpuOther', 0),
+                                    valueWithDefault(data, 'dashboard.cpuApp', 0),
+                                    valueWithDefault(data, 'dashboard.cpuFree', 0)
                                 ],
                                 backgroundColor: [
                                     '#fed330',
@@ -80,9 +80,9 @@
             else
             {
                 cpuChart.data.datasets[0].data = [
-                    valueWithDefault(data, 'data.dashboard.cpuOther', 0),
-                    valueWithDefault(data, 'data.dashboard.cpuApp', 0),
-                    valueWithDefault(data, 'data.dashboard.cpuFree', 0)
+                    valueWithDefault(data, 'dashboard.cpuOther', 0),
+                    valueWithDefault(data, 'dashboard.cpuApp', 0),
+                    valueWithDefault(data, 'dashboard.cpuFree', 0)
                 ];
                 cpuChart.update();
             }
@@ -102,9 +102,9 @@
                         datasets: [
                             {
                                 data: [
-                                    Math.round(valueWithDefault(data, 'data.dashboard.memoryOther',0) * 100)/100,
-                                    Math.round(valueWithDefault(data, 'data.dashboard.memoryApp',0) * 100)/100,
-                                    Math.round(valueWithDefault(data, 'data.dashboard.memoryFree',0) * 100)/100
+                                    Math.round(valueWithDefault(data, 'dashboard.memoryOther',0) * 100)/100,
+                                    Math.round(valueWithDefault(data, 'dashboard.memoryApp',0) * 100)/100,
+                                    Math.round(valueWithDefault(data, 'dashboard.memoryFree',0) * 100)/100
                                 ],
                                 backgroundColor: [
                                     '#fed330',
@@ -132,9 +132,9 @@
             else
             {
                 memoryChart.data.datasets[0].data = [
-                    Math.round(valueWithDefault(data, 'data.dashboard.memoryOther',0) * 100)/100,
-                    Math.round(valueWithDefault(data, 'data.dashboard.memoryApp',0) * 100)/100,
-                    Math.round(valueWithDefault(data, 'data.dashboard.memoryFree',0) * 100)/100
+                    Math.round(valueWithDefault(data, 'dashboard.memoryOther',0) * 100)/100,
+                    Math.round(valueWithDefault(data, 'dashboard.memoryApp',0) * 100)/100,
+                    Math.round(valueWithDefault(data, 'dashboard.memoryFree',0) * 100)/100
                 ];
                 memoryChart.update();
             }
@@ -155,8 +155,8 @@
                         datasets: [
                             {
                                 data: [
-                                    valueWithDefault(data, 'data.dashboard.diskUsed', 0),
-                                    valueWithDefault(data, 'data.dashboard.diskFree', 0)
+                                    valueWithDefault(data, 'dashboard.diskUsed', 0),
+                                    valueWithDefault(data, 'dashboard.diskFree', 0)
                                 ],
                                 backgroundColor: [
                                     '#fed330',
@@ -183,8 +183,8 @@
             else
             {
                 diskChart.data.datasets[0].data = [
-                    valueWithDefault(data, 'data.dashboard.diskUsed', 0),
-                    valueWithDefault(data, 'data.dashboard.diskFree', 0)
+                    valueWithDefault(data, 'dashboard.diskUsed', 0),
+                    valueWithDefault(data, 'dashboard.diskFree', 0)
                 ];
                 diskChart.update();
             }
