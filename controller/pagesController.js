@@ -21,6 +21,35 @@ class PagesController extends MainController
 			this.userNeeded = false;
 			this.loginNeeded = false;
 		}
+
+		this.cssFiles = [
+			'/assets/css/layout.css'
+		];
+	}
+
+	init(next)
+	{
+		const self = this;
+
+		if(self._action !== 'login')
+		{
+			// const variables for models
+			const Application = self._app.models.Application;
+
+			const currUser = self._req.currUser;
+
+			// retreive all applications for a list display
+			Application.findAll({
+				where: {
+				    deleted: false
+				}
+			}).then(function(applications){
+
+				self.applications = applications;
+				next();
+
+			});
+		}
 	}
 
 	actionIndex()
@@ -34,15 +63,8 @@ class PagesController extends MainController
 		const currUser = self._req.currUser;
 
 		// retreive all applications for a list display
-		Application.findAll({
-			where: {
-			    deleted: false
-			}
-		}).then(function(applications){
-
-			self.render({
-				applications: applications
-			});
+		self.render({
+			applications: self.applications
 		});
 	}
 
@@ -51,7 +73,13 @@ class PagesController extends MainController
 		// default self wrap
 		const self = this;
 
-		self.render({});
+		self.cssFiles = [
+			'/assets/css/login.css'
+		];
+
+		self.render({}, {
+			layout: false
+		});
 	}
 
 	actionApplicationDashboard()
@@ -82,14 +110,15 @@ class PagesController extends MainController
 			else
 			{
 				self.render({
-					application: application
+					application: application,
+					applications: self.applications
 				});
 			}
 			
 		}).catch(function (err) {
   			self.redirect('/errors/500');
   			console.error('Tryed to retrive an application, but failed', err);
-		});;
+		});
 	}
 }
 

@@ -7,5 +7,8 @@
 	"duration-max": "Execution Max",
 	"duration-avg": "Execution Avg",
 	"request-count": "Number of Requests",
-	"http-method": "Method"
+	"http-method": "Method",
+	"login-title": "Simple APM Login",
+	"choose-an-application": "Please choose an Application!",
+	"nav-title-applications": "nav-title-applications"
 }

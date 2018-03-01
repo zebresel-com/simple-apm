@@ -2,10 +2,32 @@
 <html>
 <head>
 	<title>Simple APM</title>
+
 	<link rel="stylesheet" type="text/css" href="/assets/css/layout.css">
+	<% if(self.cssFiles) { %>
+		<% for (var i = 0; i < self.cssFiles.length; i++) { %>
+			<% if(self.cssFiles[i].indexOf('script') !== -1) { %>
+				<%- self.cssFiles[i] %>
+			<% } else { %>
+				<link rel="stylesheet" type="text/css" href="<%-self.cssFiles[i]%>">
+			<% } // end if %>
+		<% } // end for%>
+	<% } // end if%>
 </head>
 <body>
-	<%-body%>
+	<div class="menu">
+		<ul class="clearfix">
+			<li><a href="/">Dashboard</a></li>
+		</ul>
+	</div>
+	<div class="index clearfix">
+		<div class="left">
+			<%- include shared/applications.html.ejs %>
+		</div>
+		<div class="right">
+			<%-body%>
+		</div>
+	</div>
 </body>
 </html>
 <script type="text/javascript" src="/assets/js/jquery-3.3.1.min.js"></script>

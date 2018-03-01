@@ -1,0 +1,19 @@
+<div class="applications">
+
+	<% if(applications.length === 0) {%>
+		<div class="notice">
+			<%=l("Could not found '%s'", 'Applications') %>
+		</div>
+	<% } else { %>
+		<div class="nav-title">
+			<%=l('nav-title-applications')%>
+		</div>
+		<ul class="nav">
+		<% for (let i = 0; i < applications.length; i++) { %>
+			<li>
+				<a href="/application-dashboard/<%=applications[i].get('id')%>"><%=applications[i].get('name')%></a>
+			</li>
+		<% } // end for %>
+		</ul>
+	<% } // end if%>
+</div>

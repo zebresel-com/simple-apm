@@ -1,44 +1,77 @@
-<div class="login-wrap">
-	<form method="post">
-		<div>
-			<label for="login-email"><%=l('email')%></label>
-			<input placeholder="admin@zebresel.com" name="email" id="login-email" type="email"/>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple APM</title>
+
+	<link rel="stylesheet" type="text/css" href="/assets/css/layout.css">
+	<% if(self.cssFiles) { %>
+		<% for (var i = 0; i < self.cssFiles.length; i++) { %>
+			<% if(self.cssFiles[i].indexOf('script') !== -1) { %>
+				<%- self.cssFiles[i] %>
+			<% } else { %>
+				<link rel="stylesheet" type="text/css" href="<%-self.cssFiles[i]%>">
+			<% } // end if %>
+		<% } // end for%>
+	<% } // end if%>
+</head>
+<body>
+	<div class="login-wrap">
+		<div class="wrap title">
+			<%=l('login-title')%>
 		</div>
-		<div>
-			<label for="login-password"><%=l('password')%></label>
-			<input placeholder="********" name="password" id="login-password" type="password"/>
-		</div>
-		<div>
-			<input type="submit" name="submit" id="login-submit" value="login" />
-		</div>
-	</form>
-</div>
-<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function(){
+		<form method="post">
+			<div class="wrap">
+				<label for="login-email"><%=l('email')%></label>
+				<input placeholder="admin@zebresel.com" name="email" id="login-email" type="email"/>
+			</div>
+			<div class="wrap">
+				<label for="login-password"><%=l('password')%></label>
+				<input placeholder="********" name="password" id="login-password" type="password"/>
+			</div>
+			<div class="wrap">
+				<input type="submit" name="submit" id="login-submit" value="login" />
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function(){
 
-		var submitButton = document.getElementById('login-submit');
-		
-		submitButton.addEventListener('click', function(event){
-			event.stopPropagation();
-			event.preventDefault();
+			var submitButton = document.getElementById('login-submit');
+			
+			submitButton.addEventListener('click', function(event){
+				event.stopPropagation();
+				event.preventDefault();
 
-			var password 	 = document.getElementById('login-password');
-			var email 		 = document.getElementById('login-email');
+				var password 	 = document.getElementById('login-password');
+				var email 		 = document.getElementById('login-email');
 
-			$.post( '/sign-in', {
-				password: password.value,
-				email: email.value
-			}, function( data ) {
+				$.post( '/sign-in', {
+					password: password.value,
+					email: email.value
+				}, function( data ) {
 
-				// redirect to root page
-				window.location = '/';
+					// redirect to root page
+					window.location = '/';
 
-	        }, 'json').fail(function() {
+		        }, 'json').fail(function() {
 
-	    		alert( "login failed" );
-	  		});
+		    		alert( "login failed" );
+		  		});
 
-	  		return false;
+		  		return false;
+			});
 		});
-	});
-</script>
+	</script>
+</body>
+</html>
+<script type="text/javascript" src="/assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/Chart.bundle.min.js"></script>
+<% if(self.jsFiles) { %>
+	<% for (var i = 0; i < self.jsFiles.length; i++) { %>
+		<% if(self.jsFiles[i].indexOf('script') !== -1) { %>
+			<%- self.jsFiles[i] %>
+		<% } else { %>
+			<script type="text/javascript" src="<%-self.jsFiles[i]%>"></script>	
+		<% } // end if %>
+	<% } // end for%>
+<% } // end if%>

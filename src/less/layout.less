@@ -1,9 +1,110 @@
+@import 'shared/defines.less';
 @import 'shared/reset.less';
 
+html, body {
+	height: 100%;
+}
 body {
-	background: #F0F0F0;
+	background: @bg-color;
+	color: @normal-font-color;
+
+	a {
+		color: @normal-font-color;
+		text-decoration: none;
+		transition: opacity 0.4s;
+
+		&:hover {
+			opacity: 0.6;
+		}
+
+		&:active {
+			opacity: 0.3;
+		}
+	}
+}
+.menu {
+	background: @main-color;
+	height: 50px;
+
+	ul {
+		list-style: none;
+		li {
+			display: block;
+			float: left;
+
+			a {
+				display: block;
+				height: 50px;
+				line-height: 50px;
+				padding: 0px 12px;
+				color: @main-font-color;
+
+				&:hover {
+					background: darken(@main-color, 10%);
+				}
+			}
+		}
+	}
 }
 
+.index {
+	position: relative;
+	height: 100%;
+
+	.left, .right {
+		position: relative;
+		float: left;
+		height: 100%;
+		overflow: hidden;
+		overflow-y: auto;
+	}
+
+	.left {
+		width: 200px;
+	}
+
+	.right {
+		width: calc(~"100% - 200px");
+	}
+}
+
+.nothing-selected {
+	position: absolute;
+	top: 50%;
+	-o-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(0%, -50%);
+	width: 100%;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 0px 20px;
+}
+
+.nav-title {
+	color: @main-color;
+	font-weight: bold;
+	padding: 6px 12px;
+}
+
+.nav {
+	list-style: none;
+	li {
+		a {
+			font-size: 0.9em;
+			display: block;
+			padding: 6px 18px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			transition: background 0.4s;
+
+			&:hover {
+				background: @menu-hover-color;
+			}
+		}
+	}
+}
 
 .dashboard {
 
