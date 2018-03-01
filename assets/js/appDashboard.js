@@ -7,6 +7,29 @@
     var cpuLineChart = null;
     var memoryLineChart = null;
 
+    function valueWithDefault(obj,path,def)
+    {
+        var splitted = path.split('.');        
+        var value = obj;
+        var count = 0;
+
+        while(count < splitted.length)
+        {
+            if(typeof value[splitted[count]] !== 'undefined')
+            {
+                value = value[splitted[count]];
+            }
+            else
+            {
+                value = def;
+            }
+
+            ++count;
+        }
+
+        return value;
+    };
+
     function refresh()
     {
         $.get( '/applications/'+window.apm.currApp.id+'/dashboard', null, function( data ) {
@@ -27,9 +50,9 @@
                         datasets: [
                             {
                                 data: [
-                                    data.dashboard.cpuOther,
-                                    data.dashboard.cpuApp,
-                                    data.dashboard.cpuFree
+                                    valueWithDefault(data, 'data.dashboard.cpuOther', 0),
+                                    valueWithDefault(data, 'data.dashboard.cpuApp', 0),
+                                    valueWithDefault(data, 'data.dashboard.cpuFree', 0)
                                 ],
                                 backgroundColor: [
                                     '#fed330',
@@ -57,9 +80,9 @@
             else
             {
                 cpuChart.data.datasets[0].data = [
-                    data.dashboard.cpuOther,
-                    data.dashboard.cpuApp,
-                    data.dashboard.cpuFree
+                    valueWithDefault(data, 'data.dashboard.cpuOther', 0),
+                    valueWithDefault(data, 'data.dashboard.cpuApp', 0),
+                    valueWithDefault(data, 'data.dashboard.cpuFree', 0)
                 ];
                 cpuChart.update();
             }
@@ -79,9 +102,9 @@
                         datasets: [
                             {
                                 data: [
-                                    Math.round(data.dashboard.memoryOther * 100)/100,
-                                    Math.round(data.dashboard.memoryApp * 100)/100,
-                                    Math.round(data.dashboard.memoryFree * 100)/100
+                                    Math.round(valueWithDefault(data, 'data.dashboard.memoryOther',0) * 100)/100,
+                                    Math.round(valueWithDefault(data, 'data.dashboard.memoryApp',0) * 100)/100,
+                                    Math.round(valueWithDefault(data, 'data.dashboard.memoryFree',0) * 100)/100
                                 ],
                                 backgroundColor: [
                                     '#fed330',
@@ -109,9 +132,9 @@
             else
             {
                 memoryChart.data.datasets[0].data = [
-                    Math.round(data.dashboard.memoryOther * 100)/100,
-                    Math.round(data.dashboard.memoryApp * 100)/100,
-                    Math.round(data.dashboard.memoryFree * 100)/100
+                    Math.round(valueWithDefault(data, 'data.dashboard.memoryOther',0) * 100)/100,
+                    Math.round(valueWithDefault(data, 'data.dashboard.memoryApp',0) * 100)/100,
+                    Math.round(valueWithDefault(data, 'data.dashboard.memoryFree',0) * 100)/100
                 ];
                 memoryChart.update();
             }
@@ -132,8 +155,8 @@
                         datasets: [
                             {
                                 data: [
-                                    data.dashboard.diskUsed,
-                                    data.dashboard.diskFree
+                                    valueWithDefault(data, 'data.dashboard.diskUsed', 0),
+                                    valueWithDefault(data, 'data.dashboard.diskFree', 0)
                                 ],
                                 backgroundColor: [
                                     '#fed330',
@@ -160,152 +183,189 @@
             else
             {
                 diskChart.data.datasets[0].data = [
-                    data.dashboard.diskUsed,
-                    data.dashboard.diskFree
+                    valueWithDefault(data, 'data.dashboard.diskUsed', 0),
+                    valueWithDefault(data, 'data.dashboard.diskFree', 0)
                 ];
                 diskChart.update();
             }
 
-
-            if(cpuLineChart === null)
+            // CPU LINE CHART
             {
-                var min = new Date(data.dashboard.chart.cpu.labels[0]);
-                var max = new Date(data.dashboard.chart.cpu.labels[data.dashboard.chart.cpu.labels.length - 1]);
-                var ctx = document.getElementById("metric-cpu-time");
-                cpuLineChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.dashboard.chart.cpu.labels,
-                        datasets: [
-                            {
-                                data: data.dashboard.chart.cpu.values,
-                                backgroundColor: "transparent",
-                                borderColor: "#fed330",
-                                lineTension: 0,
-                                pointRadius: 2,
-                                pointHitRadius: 4
-                            },
-                            {
-                                data: data.dashboard.chart.cpu.appValues,
-                                backgroundColor: "transparent",
-                                borderColor: "#fc5c65",
-                                lineTension: 0,
-                                pointRadius: 2,
-                                pointHitRadius: 4
-                            }
-                        ]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        legend: {
-                           display: false
-                        },
-                        animation: false,
-                        scales: {
-                            xAxes: [
+                var min = new Date();
+                var max = new Date();
+                var labels = [];
+                var values = [];
+                var appValues = [];
+
+                try 
+                {
+                    min = new Date(data.dashboard.chart.cpu.labels[0]);
+                    max = new Date(data.dashboard.chart.cpu.labels[data.dashboard.chart.cpu.labels.length - 1]);
+
+                    labels = data.dashboard.chart.cpu.labels;
+                    values = data.dashboard.chart.cpu.values;
+                    appValues = data.dashboard.chart.cpu.appValues;
+                }
+                catch(err)
+                {
+
+                }
+
+
+                if(cpuLineChart === null)
+                {
+                    var ctx = document.getElementById("metric-cpu-time");
+                    cpuLineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
                                 {
-                                    type: 'time',
-                                    time: {
-                                        min: min,
-                                        max: max,
-                                        unit: 'hour',
-                                        unitStepSize: 2,
-                                        displayFormats: { 'hour': 'H:mm' }
-                                    }
+                                    data: values,
+                                    backgroundColor: "transparent",
+                                    borderColor: "#fed330",
+                                    lineTension: 0,
+                                    pointRadius: 2,
+                                    pointHitRadius: 4
+                                },
+                                {
+                                    data: appValues,
+                                    backgroundColor: "transparent",
+                                    borderColor: "#fc5c65",
+                                    lineTension: 0,
+                                    pointRadius: 2,
+                                    pointHitRadius: 4
                                 }
                             ]
                         },
-                        title: {
-                            display: true,
-                            text: 'CPU usage Total/App'
-                        }
-                    }
-                });
-            }
-            else
-            {
-                var min = new Date(data.dashboard.chart.cpu.labels[0]);
-                var max = new Date(data.dashboard.chart.cpu.labels[data.dashboard.chart.cpu.labels.length - 1]);
-
-                cpuLineChart.options.scales.xAxes[0].time.min = min;
-                cpuLineChart.options.scales.xAxes[0].time.max = max;
-
-                cpuLineChart.data.labels = data.dashboard.chart.cpu.labels;
-                cpuLineChart.data.datasets[0].data = data.dashboard.chart.cpu.values;
-                cpuLineChart.data.datasets[1].data = data.dashboard.chart.cpu.appValues;
-
-                cpuLineChart.update();
-            }
-
-            if(memoryLineChart === null)
-            {
-                var min = new Date(data.dashboard.chart.memory.labels[0]);
-                var max = new Date(data.dashboard.chart.memory.labels[data.dashboard.chart.memory.labels.length - 1]);
-
-                var ctx = document.getElementById("metric-memory-time");
-                memoryLineChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.dashboard.chart.memory.labels,
-                        datasets: [
-                            {
-                                data: data.dashboard.chart.memory.values,
-                                backgroundColor: "transparent",
-                                borderColor: "#fed330",
-                                lineTension: 0,
-                                pointRadius: 2,
-                                pointHitRadius: 4
+                        options: {
+                            maintainAspectRatio: false,
+                            legend: {
+                               display: false
                             },
-                            {
-                                data: data.dashboard.chart.memory.appValues,
-                                backgroundColor: "transparent",
-                                borderColor: "#fc5c65",
-                                lineTension: 0,
-                                pointRadius: 2,
-                                pointHitRadius: 4
-                            }
-                        ]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        legend: {
-                           display: false
-                        },
-                        animation: false,
-                        scales: {
-                            xAxes: [
-                                {
-                                    type: 'time',
-                                    time: {
-                                        min: min,
-                                        max: max,
-                                        unit: 'hour',
-                                        unitStepSize: 2,
-                                        displayFormats: { 'hour': 'H:mm' }
+                            animation: false,
+                            scales: {
+                                xAxes: [
+                                    {
+                                        type: 'time',
+                                        time: {
+                                            min: min,
+                                            max: max,
+                                            unit: 'hour',
+                                            unitStepSize: 2,
+                                            displayFormats: { 'hour': 'H:mm' }
+                                        }
                                     }
+                                ]
+                            },
+                            title: {
+                                display: true,
+                                text: 'CPU usage Total/App'
+                            }
+                        }
+                    });
+                }
+                else
+                {
+
+                    cpuLineChart.options.scales.xAxes[0].time.min = min;
+                    cpuLineChart.options.scales.xAxes[0].time.max = max;
+
+                    cpuLineChart.data.labels = labels;
+                    cpuLineChart.data.datasets[0].data = values;
+                    cpuLineChart.data.datasets[1].data = appValues;
+
+                    cpuLineChart.update();
+                }
+            }
+
+
+            {
+                var min = new Date();
+                var max = new Date();
+                var labels = [];
+                var values = [];
+                var appValues = [];
+
+                try 
+                {
+                    min = new Date(data.dashboard.chart.memory.labels[0]);
+                    max = new Date(data.dashboard.chart.memory.labels[data.dashboard.chart.memory.labels.length - 1]);
+
+                    labels = data.dashboard.chart.memory.labels;
+                    values = data.dashboard.chart.memory.values;
+                    appValues = data.dashboard.chart.memory.appValues;
+                }
+                catch(err)
+                {
+
+                }
+
+                if(memoryLineChart === null)
+                {
+                    var ctx = document.getElementById("metric-memory-time");
+                    memoryLineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    data: values,
+                                    backgroundColor: "transparent",
+                                    borderColor: "#fed330",
+                                    lineTension: 0,
+                                    pointRadius: 2,
+                                    pointHitRadius: 4
+                                },
+                                {
+                                    data: appValues,
+                                    backgroundColor: "transparent",
+                                    borderColor: "#fc5c65",
+                                    lineTension: 0,
+                                    pointRadius: 2,
+                                    pointHitRadius: 4
                                 }
                             ]
                         },
-                        title: {
-                            display: true,
-                            text: 'Memory usage Total/App'
+                        options: {
+                            maintainAspectRatio: false,
+                            legend: {
+                               display: false
+                            },
+                            animation: false,
+                            scales: {
+                                xAxes: [
+                                    {
+                                        type: 'time',
+                                        time: {
+                                            min: min,
+                                            max: max,
+                                            unit: 'hour',
+                                            unitStepSize: 2,
+                                            displayFormats: { 'hour': 'H:mm' }
+                                        }
+                                    }
+                                ]
+                            },
+                            title: {
+                                display: true,
+                                text: 'Memory usage Total/App'
+                            }
                         }
-                    }
-                });
-            }
-            else
-            {
-                var min = new Date(data.dashboard.chart.memory.labels[0]);
-                var max = new Date(data.dashboard.chart.memory.labels[data.dashboard.chart.memory.labels.length - 1]);
-                memoryLineChart.options.scales.xAxes[0].time.min = min;
-                memoryLineChart.options.scales.xAxes[0].time.max = max;
+                    });
+                }
+                else
+                {
+                    memoryLineChart.options.scales.xAxes[0].time.min = min;
+                    memoryLineChart.options.scales.xAxes[0].time.max = max;
 
 
-                memoryLineChart.data.labels = data.dashboard.chart.memory.labels;
-                memoryLineChart.data.datasets[0].data = data.dashboard.chart.memory.values;
-                memoryLineChart.data.datasets[1].data = data.dashboard.chart.memory.appValues;
-                
-                memoryLineChart.update();
+                    memoryLineChart.data.labels = labels;
+                    memoryLineChart.data.datasets[0].data = values;
+                    memoryLineChart.data.datasets[1].data = appValues;
+                    
+                    memoryLineChart.update();
+                }
             }
 
             // render requests
