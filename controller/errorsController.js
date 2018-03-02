@@ -24,13 +24,15 @@ class ErrorsController extends MainController
 	{
 		// default self wrap
 		const self = this;
-		
-		if(self._req.headers['accept'].indexOf('application/json') !== -1)
-		{
-			self.format = MainController.FORMATS.JSON;
-		}
 
-		next();
+		super.init(function(){
+			if(self._req.headers['accept'].indexOf('application/json') !== -1)
+			{
+				self.format = MainController.FORMATS.JSON;
+			}
+
+			next();
+		});
 	}
 
 	actionIndex()

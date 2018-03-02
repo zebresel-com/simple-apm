@@ -19,10 +19,12 @@ class DashboardController extends MainController
 		// default self wrap
 		const self = this;
 
-		// default format is JSON
-		self.format = MainController.FORMATS.JSON;
+		super.init(function(){
+			// default format is JSON
+			self.format = MainController.FORMATS.JSON;
 
-		next();
+			next();
+		});
 	}
 
 	/**

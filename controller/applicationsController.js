@@ -13,8 +13,10 @@ class ApplicationsController extends MainController
 {
 	init(next)
 	{
-		self.format = MainController.FORMATS.JSON;
-		next();
+		super.init(function(){
+			self.format = MainController.FORMATS.JSON;
+			next();
+		});
 	}
 
 	actionIndex()

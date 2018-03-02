@@ -36,41 +36,43 @@ class PostsController extends MainController
 		// default self wrap
 		const self = this;
 
-		// default format is JSON
-		self.format = MainController.FORMATS.JSON;
+		super.init(function(){
+			// default format is JSON
+			self.format = MainController.FORMATS.JSON;
 
-		// app only actions
-		const onlyApp = ['create'];
+			// app only actions
+			const onlyApp = ['create'];
 
-		// check correct contenttyp
-		let contype = self._req.headers['content-type'];
-		if ((self._method === 'POST' || self._method === 'PUT') && (!contype || contype.indexOf('application/json') === -1))
-		{
-			self.render({}, {
-				status: 401
-			});
-		}
-		else if(onlyApp.indexOf(self._action) !== -1)
-		{
-			// check application is selected
-			let secret = self._req.headers['x-apm-app-secret'];
-			// retreive all applications for a list display
-			self._app.models.Application.findOne({
-				where: {
-				    deleted: false,
-				    appSecret: secret
-				}
-			}).then(function(application){
+			// check correct contenttyp
+			let contype = self._req.headers['content-type'];
+			if ((self._method === 'POST' || self._method === 'PUT') && (!contype || contype.indexOf('application/json') === -1))
+			{
+				self.render({}, {
+					status: 401
+				});
+			}
+			else if(onlyApp.indexOf(self._action) !== -1)
+			{
+				// check application is selected
+				let secret = self._req.headers['x-apm-app-secret'];
+				// retreive all applications for a list display
+				self._app.models.Application.findOne({
+					where: {
+					    deleted: false,
+					    appSecret: secret
+					}
+				}).then(function(application){
 
-				self._req.application = application;
+					self._req.application = application;
+					next();
+
+				});
+			}
+			else
+			{
 				next();
-
-			});
-		}
-		else
-		{
-			next();
-		}
+			}
+		});
 	}
 
 	actionCreate()

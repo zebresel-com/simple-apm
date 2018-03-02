@@ -31,25 +31,27 @@ class PagesController extends MainController
 	{
 		const self = this;
 
-		if(self._action !== 'login')
-		{
-			// const variables for models
-			const Application = self._app.models.Application;
+		super.init(function(){
+			if(self._action !== 'login')
+			{
+				// const variables for models
+				const Application = self._app.models.Application;
 
-			const currUser = self._req.currUser;
+				const currUser = self._req.currUser;
 
-			// retreive all applications for a list display
-			Application.findAll({
-				where: {
-				    deleted: false
-				}
-			}).then(function(applications){
+				// retreive all applications for a list display
+				Application.findAll({
+					where: {
+					    deleted: false
+					}
+				}).then(function(applications){
 
-				self.applications = applications;
-				next();
+					self.applications = applications;
+					next();
 
-			});
-		}
+				});
+			}
+		});
 	}
 
 	actionIndex()
