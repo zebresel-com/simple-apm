@@ -67,7 +67,7 @@ class ViewController
         else
         {
             // check the user disabled the layout or like to us a other layout path?
-            let layout = opt.layout || path.resolve(self.viewPath() + '/layout.html.ejs');
+            let layout = opt.layout === false ? false : opt.layout || path.resolve(self.viewPath() + '/layout.html.ejs');
             params.self = self;
 
             // extend params with i18n

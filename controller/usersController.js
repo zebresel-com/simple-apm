@@ -15,6 +15,17 @@ const Op        = Sequelize.Op
 
 class UsersController extends MainController
 {
+    constructor(app, req, res, controller, action, method)
+    {
+        super(app, req, res, controller, action, method);
+
+        if(action === 'login')
+        {
+            this.userNeeded = false;
+            this.loginNeeded = false;
+        }
+    }
+
     init(next)
     {
         // default self wrap

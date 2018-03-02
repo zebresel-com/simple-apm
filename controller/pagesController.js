@@ -51,6 +51,10 @@ class PagesController extends MainController
 
 				});
 			}
+			else
+			{
+				next();
+			}
 		});
 	}
 
