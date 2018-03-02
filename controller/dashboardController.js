@@ -161,9 +161,9 @@ class DashboardController extends MainController
 					}
 					else
 					{
-						result.cpuOther = -1.0;
-						result.cpuApp = -1.0;
-						result.cpuFree = -1.0;
+						result.cpuOther = 0.0;
+						result.cpuApp = 0.0;
+						result.cpuFree = 0.0;
 					}
 
 
@@ -175,9 +175,9 @@ class DashboardController extends MainController
 					}
 					else
 					{
-						result.memoryFree = -1.0;
-						result.memoryApp = -1.0;
-						result.memoryOther = -1.0;
+						result.memoryFree = 0.0;
+						result.memoryApp = 0.0;
+						result.memoryOther = 0.0;
 					}
 
 					if(result.disk && result.disk.length > 0)
@@ -187,8 +187,8 @@ class DashboardController extends MainController
 					}
 					else
 					{
-						result.diskFree = -1.0;
-						result.diskUsed = -1.0;
+						result.diskFree = 0.0;
+						result.diskUsed = 0.0;
 					}
 
 
