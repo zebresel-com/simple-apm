@@ -230,8 +230,10 @@ class PostsController extends MainController
 	{
 		const self = this;
 		const Http = self._app.models.Http;
+		const HttpRequest = self._app.models.HttpRequest;
 
 		let path = remotePost.data.path;
+		let query = null;
 
 		// check path is available
 		if(path)
@@ -250,8 +252,27 @@ class PostsController extends MainController
 
 				if(indexOfQ !== -1)
 				{
+					query = path.substr(indexOfQ, path.length);
 					path = path.substr(0, indexOfQ);
 				}
+
+
+				// create new request in database
+				let httpRequest = HttpRequest.build();
+				httpRequest.createdAt = remotePost.startTime;
+				httpRequest.path = path;
+				httpRequest.query = query;
+				httpRequest.httpCode = remotePost.data.httpCode;
+				httpRequest.method = remotePost.data.method;
+				httpRequest.duration = remotePost.data.duration;
+				httpRequest.application = remotePost.application;
+
+				httpRequest.save().then(function() {
+		            // Save done
+		        }).catch(function (err) {
+		            console.error('Save of http request failed', err);
+		        });
+
 
 				// check there is already an entry?
 				Http.findOne({

@@ -73,6 +73,17 @@ class DashboardController extends MainController
 					application: application.id
 				};
 
+				// Generate Dashboard
+				// 
+				// -- Normal "Fine" Requests 
+				// SELECT COUNT(id), AVG(duration), MAX(duration), MIN(duration) FROM `httpRequest` WHERE `httpCode` < 400 GROUP BY UNIX_TIMESTAMP(`createdAt`) DIV 10
+				// 
+				// -- Used for Client HTTP Errors
+				// SELECT COUNT(id), AVG(duration), MAX(duration), MIN(duration) FROM `httpRequest` WHERE `httpCode` >= 400 AND `httpCode` < 500 GROUP BY UNIX_TIMESTAMP(`createdAt`) DIV 10
+				// 
+				// -- Used for Server HTTP Errors
+				// SELECT COUNT(id), AVG(duration), MAX(duration), MIN(duration) FROM `httpRequest` WHERE `httpCode` >= 500 GROUP BY UNIX_TIMESTAMP(`createdAt`) DIV 10
+
 				// -- Normal SQL to get every 10s 
 				// SELECT COUNT(id), MAX(status) FROM `post` WHERE `startTime` >= '2018-02-15 19:15:00' GROUP BY UNIX_TIMESTAMP(`startTime`) DIV 10
 				Post.findAll({
