@@ -46,7 +46,8 @@ module.exports = function(sequelize)
         }
         
     }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+       tableName: 'user',
+       freezeTableName: true // Model tableName will be the same as the model name
     });
 
     Model.prototype.toJSON = function()
