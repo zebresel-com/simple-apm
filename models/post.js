@@ -23,7 +23,8 @@ module.exports = function(sequelize)
             type: Sequelize.JSON
         },
     }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+        tableName: 'post',
+        freezeTableName: true // Model tableName will be the same as the model name
     });
 
     return Model;

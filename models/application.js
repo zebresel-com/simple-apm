@@ -7,7 +7,8 @@ module.exports = function(sequelize)
             type: Sequelize.STRING
         }
     }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+    	tableName: 'application',
+      	freezeTableName: true // Model tableName will be the same as the model name
     });
 
     return Model;

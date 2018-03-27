@@ -20,10 +20,6 @@ module.exports = function(sequelize)
             type: Sequelize.STRING,
             allowNull: true
         },
-        path: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
         httpCode: {
             type: Sequelize.INTEGER,
             allowNull: false,
@@ -34,7 +30,8 @@ module.exports = function(sequelize)
             allowNull: false
         }
     }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+        tableName: 'httpRequest',
+        freezeTableName: true // Model tableName will be the same as the model name
     });
 
     return Model;

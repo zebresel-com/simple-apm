@@ -36,7 +36,8 @@ module.exports = function(sequelize)
             allowNull: false
         }
     }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+        tableName: 'http',
+        freezeTableName: true // Model tableName will be the same as the model name
     });
 
     return Model;

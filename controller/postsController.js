@@ -63,8 +63,17 @@ class PostsController extends MainController
 					}
 				}).then(function(application){
 
-					self._req.application = application;
-					next();
+					if(application)
+					{
+						self._req.application = application;
+						next();
+					}
+					else
+					{
+						self.render({}, {
+							status: 401
+						});
+					}
 
 				});
 			}
